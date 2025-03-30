@@ -2,6 +2,7 @@
 % Script para leitura contínua da porta serial
 % -------------------------------------------------------------
 % -- -- Por Alexandre S. Lucena
+% -- Disponível em https://github.com/AlexandreLucena/MATLAB
 % -------------------------------------------------------------
 % - O objetivo deste código é proporcionar a leitura contínua
 % da porta serial, plotando resultados em formato preparado
@@ -73,7 +74,7 @@ grid on;
 
 tempo_inicio = tic;
 lastUpdate = toc(tempo_inicio);
-updateInterval = 0.01; % 50ms
+updateInterval = 0.01;
 
 try
     while true
@@ -100,7 +101,7 @@ try
                 AC(count) = valores(3);
                 Millis(count) = valores(4);
                 
-                % Suavização com mediana móvel - CORREÇÃO AQUI
+                % Suavização com mediana móvel
                 if count >= windowSize
                     % Calcula a mediana móvel para a janela atual
                     valorfiltrado = median(Saida(max(1,count-windowSize+1):count));
@@ -127,9 +128,6 @@ try
             set(p4, 'XData', tempo(range), 'YData', AC(range));
             xlim(h2, [max(0, tempo(count)-10), tempo(count)]);
             ylim(h2, [min(AC(range))-5, max(AC(range))+5]);
-            
-            % set(p5, 'XData', tempo(range), 'YData', Millis(range));
-            % xlim(h3, [max(0, tempo(count)-10), tempo(count)]);
             
             drawnow limitrate;
             lastUpdate = currentTime;
